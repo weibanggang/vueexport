@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="example-1">
+			<ul>
+				<li v-for="item in items">
+					{{ item.message }}
+				</li>
+			</ul>
+			<input  v-model="inpu"/>
+			<span>{{revMsg}}</span>
+			<button type="button" onclick="destroy()">销毁</button>
+		</div>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+
+	<script>
+		var example1 = new Vue({
+			el: '#example-1',
+			data: {
+				items: [{
+						message: 'Foo'
+					},
+					{
+						message: 'Bar'
+					}
+				],
+				inpu:0
+			},
+			//创建前
+			beforeCreate:function(){
+				console.log("创建前进入beforeCreate inpu："+this.inpu+" $el："+this.$el);
+			},
+			//创建后
+			created:function(){
+				console.log("创建后进入created inpu："+this.inpu+" $el："+this.$el);
+				//this.add();
+			},
+			//挂载前
+			beforeMount:function(){
+				console.log("挂载前进入beforeMount inpu："+this.inpu+" $el："+this.$el);
+			},
+			//挂载后
+			mounted:function(){
+				console.log("挂载后进入mounted inpu："+this.inpu+" $el："+this.$el);
+			},
+			//实例更新前
+			beforeUpdate:function(){
+				console.log("实例更新前进入beforeUpdate inpu："+this.inpu+" $el："+this.$el);
+			},
+			//实例更新后
+			updated:function(){
+				console.log("实例更新后进入updated inpu："+this.inpu+" $el："+this.$el);
+			},
+			//实例销毁前
+			beforeDestroy:function(){
+				console.log("实例销毁前进入updated inpu："+this.inpu+" $el："+this.$el);
+
+			},
+			//实例销毁后
+			destroyed:function(){
+            console.log("实例销毁后进入updated inpu："+this.inpu+" $el："+this.$el);
+            },
+			//定义方法
+			methods: {
+				//调用时候进入
+				add(){
+					console.log("进入add");
+					for(var i = 0;i<2;i++){
+						this.items.push({
+							"message": i
+						})
+					}
+				}
+			},
+			 computed: {
+					//加载时候进入 在created后面  修改时候在computed后面 在updated前面
+                    revMsg: function() {
+						console.log("进入computed revMsg inpu："+this.inpu+" $el："+this.$el);
+                       
+                    },
+					ss:function(){
+						console.log("进入computed ss inpu："+this.inpu+" $el："+this.$el);
+					}
+                },
+			watch:{
+					//值更变时候进入  修改是在 computed前面
+					inpu: function(val, oldVal) {
+                        console.log("新值:"+val+"   旧值："+oldVal);
+                    }
+				}
+		})
+		
+		function destroy(){
+                example1.$destroy();
+            }
+	</script>
+</html>
